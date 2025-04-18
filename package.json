@@ -6,21 +6,39 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:docker": "docker compose -p next-graphql -f docker/docker-compose.yml up -d",
+    "prisma:migrate": "prisma format && prisma migrate dev",
+    "prisma:generate": "prisma generate",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@pothos/core": "^4.6.0",
+    "@pothos/plugin-prisma": "^4.6.0",
+    "@prisma/client": "^6.6.0",
+    "@urql/exchange-graphcache": "^7.2.3",
+    "graphql": "^16.10.0",
+    "graphql-scalars": "^1.24.2",
+    "graphql-tag": "^2.12.6",
+    "graphql-yoga": "^5.13.4",
+    "next": "14.2.24",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.24"
+    "urql": "^4.2.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-operations": "^4.6.0",
+    "@graphql-codegen/typescript-urql": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.24"
+    "eslint-config-next": "14.2.24",
+    "postcss": "^8",
+    "prisma": "^6.6.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }

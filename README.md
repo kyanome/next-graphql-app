@@ -1,3 +1,95 @@
+# Next.js GraphQL Application with Python Backend
+
+このプロジェクトは Next.js フロントエンドと Python（FastAPI + Strawberry GraphQL）バックエンドを使用したフルスタックアプリケーションです。
+
+## 技術スタック
+
+### フロントエンド
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- urql (GraphQL クライアント)
+
+### バックエンド
+
+- Python（Poetry による依存関係管理）
+- FastAPI
+- Strawberry GraphQL
+- SQLAlchemy
+- PostgreSQL
+
+## 前提条件
+
+- Node.js と npm
+- Poetry（Python の依存関係管理ツール）
+  ```bash
+  # Poetryのインストール
+  curl -sSL https://install.python-poetry.org | python3 -
+  ```
+- Docker（PostgreSQL コンテナ用）
+
+## セットアップ
+
+### データベースの起動
+
+```bash
+npm run dev:docker
+```
+
+### Python バックエンドの設定
+
+```bash
+# 依存関係のインストール（Poetryを使用）
+npm run backend:install
+
+# データベースマイグレーション
+npm run backend:migrate
+
+# バックエンドサーバー起動
+npm run backend:dev
+```
+
+### フロントエンドの設定
+
+```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバーの起動
+npm run dev
+```
+
+## 動作確認
+
+- フロントエンド: http://localhost:3000
+- GraphQL API: http://localhost:8000/graphql
+
+## 機能
+
+- 投稿（Post）の一覧表示
+- カテゴリ（Category）の作成と管理
+- 投稿の作成とカテゴリとの関連付け
+
+## プロジェクト構造
+
+```
+.
+├── app                     # Next.js App Router
+├── backend/                # Pythonバックエンド
+│   ├── app/                # FastAPIアプリケーション
+│   │   ├── database/       # データベース設定
+│   │   ├── graphql/        # GraphQL関連ファイル
+│   │   ├── models/         # SQLAlchemyモデル
+│   │   └── schemas/        # Strawberryスキーマ
+│   ├── migrations/         # Alembicマイグレーション
+│   └── pyproject.toml      # Poetry依存関係定義
+├── pages/                  # Next.jsページコンポーネント
+├── graphql/                # JS GraphQL設定（レガシー）
+└── src/                    # ソースコード
+    └── graphql/            # GraphQLクエリとミューテーション
+```
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

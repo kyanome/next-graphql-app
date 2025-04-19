@@ -20,48 +20,55 @@ export type Scalars = {
 
 export type Category = {
   __typename?: 'Category';
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  posts?: Maybe<Array<Post>>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type CategoryInput = {
+  name: Scalars['String']['input'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createCategory?: Maybe<Category>;
-  createPost?: Maybe<Post>;
+  createCategory: Category;
+  createPost: Post;
 };
 
 
 export type MutationCreateCategoryArgs = {
-  name: Scalars['String']['input'];
+  categoryInput: CategoryInput;
 };
 
 
 export type MutationCreatePostArgs = {
+  postInput: PostInput;
+};
+
+export type Post = {
+  __typename?: 'Post';
+  categories: Array<Category>;
+  content: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  published: Scalars['Boolean']['output'];
+  publishedAt: Scalars['DateTime']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type PostInput = {
   categoryIds?: InputMaybe<Array<Scalars['String']['input']>>;
   content?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Post = {
-  __typename?: 'Post';
-  categories?: Maybe<Array<Category>>;
-  content?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  published?: Maybe<Scalars['Boolean']['output']>;
-  publishedAt?: Maybe<Scalars['DateTime']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
 export type Query = {
   __typename?: 'Query';
-  categories?: Maybe<Array<Category>>;
+  categories: Array<Category>;
   post?: Maybe<Post>;
-  posts?: Maybe<Array<Post>>;
+  posts: Array<Post>;
 };
 
 
@@ -76,39 +83,47 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', id?: string | null, title?: string | null, content?: string | null } | null };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, title: string, content: string, published: boolean, publishedAt: any, categories: Array<{ __typename?: 'Category', id: string, name: string }> } };
 
 export type CreateCategoryMutationVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
 
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory?: { __typename?: 'Category', id?: string | null, name?: string | null } | null };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string } };
 
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', id?: string | null, title?: string | null, content?: string | null, published?: boolean | null, categories?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null }> | null }> | null };
+export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, content: string, published: boolean, categories: Array<{ __typename?: 'Category', id: string, name: string }> }> };
 
 export type GetPostQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetPostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id?: string | null, title?: string | null, content?: string | null, published?: boolean | null, categories?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null }> | null } | null };
+export type GetPostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, title: string, content: string, published: boolean, categories: Array<{ __typename?: 'Category', id: string, name: string }> } | null };
 
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCategoriesQuery = { __typename?: 'Query', categories?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null }> | null };
+export type GetCategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: string, name: string }> };
 
 
 export const CreatePostDocument = gql`
     mutation CreatePost($title: String, $content: String, $categoryIds: [String!]) {
-  createPost(title: $title, content: $content, categoryIds: $categoryIds) {
+  createPost(
+    postInput: {title: $title, content: $content, categoryIds: $categoryIds}
+  ) {
     id
     title
     content
+    published
+    publishedAt
+    categories {
+      id
+      name
+    }
   }
 }
     `;
@@ -118,7 +133,7 @@ export function useCreatePostMutation() {
 };
 export const CreateCategoryDocument = gql`
     mutation CreateCategory($name: String!) {
-  createCategory(name: $name) {
+  createCategory(categoryInput: {name: $name}) {
     id
     name
   }

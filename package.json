@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "dev:docker": "docker compose -p next-graphql -f docker/docker-compose.yml up -d",
+    "backend:install": "cd backend && poetry install --no-root",
+    "backend:migrate": "cd backend && poetry run python -m alembic upgrade head",
+    "backend:dev": "cd backend && poetry run python run.py",
     "prisma:migrate": "prisma format && prisma migrate dev",
     "prisma:generate": "prisma generate",
     "generate": "graphql-codegen --config codegen.yml"

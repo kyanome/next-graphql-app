@@ -7,10 +7,19 @@ import {
   cacheExchange,
 } from "urql";
 import Link from "next/link";
+import "../app/globals.css";
 
+// GraphQLクライアントの設定を更新
+// Python FastAPI + Strawberryバックエンドのエンドポイントに向けます
 const client = createClient({
-  url: "/api/graphql",
+  // Python FastAPIエンドポイント
+  url: "http://localhost:8000/graphql",
   exchanges: [cacheExchange, fetchExchange],
+  fetchOptions: {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  },
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
